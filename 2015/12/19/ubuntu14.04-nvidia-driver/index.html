@@ -86,7 +86,7 @@
 <meta property="og:url" content="http://dotcoming.me/2015/12/19/ubuntu14.04-nvidia-driver/index.html">
 <meta property="og:site_name" content="Dotcoming's blog">
 <meta property="og:description" content="前言实验室有一块TITAN卡，昨天显卡驱动跪了。重新安装更新了一下显卡驱动，过程还是有点艰难，稍微记录一下。之前有过几次类似的问题了，Ubuntu下安装显卡(包括卸载)感觉还是有些麻烦。">
-<meta property="og:updated_time" content="2016-04-18T16:14:09.000Z">
+<meta property="og:updated_time" content="2016-04-19T15:55:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu14.04下Nvidia GTX显卡驱动安装">
 <meta name="twitter:description" content="前言实验室有一块TITAN卡，昨天显卡驱动跪了。重新安装更新了一下显卡驱动，过程还是有点艰难，稍微记录一下。之前有过几次类似的问题了，Ubuntu下安装显卡(包括卸载)感觉还是有些麻烦。">
@@ -354,21 +354,17 @@
 
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>实验室有一块TITAN卡，昨天<strong>显卡驱动</strong>跪了。重新安装更新了一下显卡驱动，过程还是有点艰难，稍微记录一下。之前有过几次类似的问题了，Ubuntu下安装显卡(包括卸载)感觉还是有些麻烦。<br><a id="more"></a></p>
-<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>###系统</p>
-<ul>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><h3 id="系统"><a href="#系统" class="headerlink" title="系统"></a>系统</h3><ul>
 <li><strong>Ubuntu 14.04 LTS server 64bits</strong></li>
 </ul>
-<p>###硬件</p>
-<ul>
+<h3 id="硬件"><a href="#硬件" class="headerlink" title="硬件"></a>硬件</h3><ul>
 <li><strong>Nvidia GeForce GTX TITAN X</strong></li>
 </ul>
-<p>###软件版本</p>
-<ul>
+<h3 id="软件版本"><a href="#软件版本" class="headerlink" title="软件版本"></a>软件版本</h3><ul>
 <li><strong>Driver Version:352.68</strong></li>
 </ul>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>###Before<br>可能是之前的显卡驱动比较老，在更新某些安装包的导致显卡驱动无法支持而奔溃。我们这块主要是用来跑<code>Deeplearning</code>程序，结合<code>Caffe</code>, <code>Theano</code>和<code>Keras</code>使用。起因是运行<code>Theano</code>程序报错无法识别显卡,提示驱动是否安装并启动。<code>nvidia-smi</code>命令无法运行,因此基本上确定显卡驱动出问题了。马上还是着手重新安装。首先想到的是<code>google</code>和<code>stackoverflow</code>,确实也找到了靠谱的解决方案，想到的是显卡驱动应该有将近半年没有更换了，也正好升级一下，在引用的链接中找到了匹配的最新的驱动版本之后，也是根据链接里面的提示进行安装，非常顺利，这里对过程重新整理一遍。 </p>
-<p>###STEP1 卸载显卡驱动</p>
-<ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="Before"><a href="#Before" class="headerlink" title="Before"></a>Before</h3><p>可能是之前的显卡驱动比较老，在更新某些安装包的导致显卡驱动无法支持而奔溃。我们这块主要是用来跑<code>Deeplearning</code>程序，结合<code>Caffe</code>, <code>Theano</code>和<code>Keras</code>使用。起因是运行<code>Theano</code>程序报错无法识别显卡,提示驱动是否安装并启动。<code>nvidia-smi</code>命令无法运行,因此基本上确定显卡驱动出问题了。马上还是着手重新安装。首先想到的是<code>google</code>和<code>stackoverflow</code>,确实也找到了靠谱的解决方案，想到的是显卡驱动应该有将近半年没有更换了，也正好升级一下，在引用的链接中找到了匹配的最新的驱动版本之后，也是根据链接里面的提示进行安装，非常顺利，这里对过程重新整理一遍。 </p>
+<h3 id="STEP1-卸载显卡驱动"><a href="#STEP1-卸载显卡驱动" class="headerlink" title="STEP1 卸载显卡驱动"></a>STEP1 卸载显卡驱动</h3><ul>
 <li><p>删除nvidia原来的驱动</p>
 <figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-<span class="built_in">get</span> <span class="built_in">remove</span> nvidia*</span><br></pre></td></tr></table></figure>
 </li>
@@ -385,8 +381,7 @@
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sudo</span> reboot</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>###STEP2 安装显卡驱动</p>
-<ul>
+<h3 id="STEP2-安装显卡驱动"><a href="#STEP2-安装显卡驱动" class="headerlink" title="STEP2 安装显卡驱动"></a>STEP2 安装显卡驱动</h3><ul>
 <li><p>安装显卡驱动，注意版本的匹配。需要考虑GPU型号和ubuntu版本，如果没有添加ppa源请添加，方法见<strong>STEP1</strong>.</p>
 <figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo<span class="built_in"> add-apt-repository </span>-r ppa:xorg-edgers/ppa</span><br><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
 </li>
@@ -603,7 +598,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境"><span class="nav-number">2.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">3.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">4.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境"><span class="nav-number">2.</span> <span class="nav-text">环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#系统"><span class="nav-number">2.1.</span> <span class="nav-text">系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件"><span class="nav-number">2.2.</span> <span class="nav-text">硬件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#软件版本"><span class="nav-number">2.3.</span> <span class="nav-text">软件版本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">3.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Before"><span class="nav-number">3.1.</span> <span class="nav-text">Before</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#STEP1-卸载显卡驱动"><span class="nav-number">3.2.</span> <span class="nav-text">STEP1 卸载显卡驱动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#STEP2-安装显卡驱动"><span class="nav-number">3.3.</span> <span class="nav-text">STEP2 安装显卡驱动</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">4.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
             
           </div>
         </section>

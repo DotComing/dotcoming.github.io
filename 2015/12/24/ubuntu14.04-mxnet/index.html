@@ -86,7 +86,7 @@
 <meta property="og:url" content="http://dotcoming.me/2015/12/24/ubuntu14.04-mxnet/index.html">
 <meta property="og:site_name" content="Dotcoming's blog">
 <meta property="og:description" content="前言之前在Ubuntu14.04下安装了显卡驱动，该步骤已经记录，CUDA7.0的安装以后有需要的话再更新记录安装步骤，包括现在比较火的Theano的安装等。这里主要记录开源的mxnet的编译过程。现在deeplearning这么火，python那边一大推开源的库，caffe也用过一段时间，torch没有接触过，但是也积累了一定的用户量。这里mxnet也做的挺不错的，用的人比较多，我比较喜欢他们底">
-<meta property="og:updated_time" content="2016-04-18T16:14:09.000Z">
+<meta property="og:updated_time" content="2016-04-19T15:52:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu14.04下mxnet编译安装">
 <meta name="twitter:description" content="前言之前在Ubuntu14.04下安装了显卡驱动，该步骤已经记录，CUDA7.0的安装以后有需要的话再更新记录安装步骤，包括现在比较火的Theano的安装等。这里主要记录开源的mxnet的编译过程。现在deeplearning这么火，python那边一大推开源的库，caffe也用过一段时间，torch没有接触过，但是也积累了一定的用户量。这里mxnet也做的挺不错的，用的人比较多，我比较喜欢他们底">
@@ -354,31 +354,26 @@
 
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前在<code>Ubuntu14.04</code>下安装了显卡驱动，该步骤已经记录，<code>CUDA7.0</code>的安装以后有需要的话再更新记录安装步骤，包括现在比较火的<code>Theano</code>的安装等。这里主要记录开源的<code>mxnet</code>的编译过程。现在<code>deeplearning</code>这么火，<code>python</code>那边一大推开源的库，<code>caffe</code>也用过一段时间，<code>torch</code>没有接触过，但是也积累了一定的用户量。这里<code>mxnet</code>也做的挺不错的，用的人比较多，我比较喜欢他们底层计算框架<code>mshadow C++</code>的写法。话不多说，直接开始编译，其实具体步骤官方文档上有，这里会更直白一些。<br><a id="more"></a></p>
-<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>###系统</p>
-<ul>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><h3 id="系统"><a href="#系统" class="headerlink" title="系统"></a>系统</h3><ul>
 <li><strong>Ubuntu 14.04 LTS server 64bits</strong></li>
 </ul>
-<p>###硬件</p>
-<ul>
+<h3 id="硬件"><a href="#硬件" class="headerlink" title="硬件"></a>硬件</h3><ul>
 <li><strong>Nvidia GeForce GTX TITAN X</strong></li>
 </ul>
-<p>###软件版本</p>
-<ul>
+<h3 id="软件版本"><a href="#软件版本" class="headerlink" title="软件版本"></a>软件版本</h3><ul>
 <li><strong>Driver Version:352.68</strong></li>
 <li><strong>CUDA7.0 &amp; cuDNN</strong></li>
 <li><strong><a href="https://github.com/dmlc/mxnet" target="_blank" rel="external">mxnet</a></strong></li>
 </ul>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>###Before<br><code>mxnet</code>核心是<code>C++</code>写的，所以需要在<code>Ubuntu</code>下先编译动态链接库，也就是<code>.so</code>文件。之后，如果想在<code>python</code>下面运行，那么需要编译<code>python egg</code>文件，这也是这里主要涉及的两个部分，<code>mxnet</code>支持<code>python</code>，<code>C++</code>，<code>matlab</code>和<code>R</code>等，我想这也是受欢迎的原因之一。</p>
-<p>###STEP1 Prerequisites</p>
-<ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="Before"><a href="#Before" class="headerlink" title="Before"></a>Before</h3><p><code>mxnet</code>核心是<code>C++</code>写的，所以需要在<code>Ubuntu</code>下先编译动态链接库，也就是<code>.so</code>文件。之后，如果想在<code>python</code>下面运行，那么需要编译<code>python egg</code>文件，这也是这里主要涉及的两个部分，<code>mxnet</code>支持<code>python</code>，<code>C++</code>，<code>matlab</code>和<code>R</code>等，我想这也是受欢迎的原因之一。</p>
+<h3 id="STEP1-Prerequisites"><a href="#STEP1-Prerequisites" class="headerlink" title="STEP1 Prerequisites"></a>STEP1 Prerequisites</h3><ul>
 <li><p>Nvidia驱动 CUDA7.0 cuDNN 自不必说。</p>
 </li>
 <li><p>libatlas等安装。</p>
 <figure class="highlight q"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-<span class="built_in">get</span> <span class="keyword">update</span></span><br><span class="line">sudo apt-<span class="built_in">get</span> install -y build-essential git libatlas-base-<span class="built_in">dev</span> libopencv-<span class="built_in">dev</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>###STEP2 编译.so文件</p>
-<ul>
+<h3 id="STEP2-编译-so文件"><a href="#STEP2-编译-so文件" class="headerlink" title="STEP2 编译.so文件"></a>STEP2 编译.so文件</h3><ul>
 <li><p>git clone mxnet</p>
 <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">clone</span> <span class="title">--recursive</span> https://github.com/dmlc/mxnet</span><br><span class="line">cd mxnet</span><br></pre></td></tr></table></figure>
 </li>
@@ -391,8 +386,7 @@
 <li><p>编译结束后，/mxnet/lib/出现libmxnet.so文件</p>
 </li>
 </ul>
-<p>###STEP3 编译python版本, 默认在mxnet目录下</p>
-<ul>
+<h3 id="STEP3-编译python版本-默认在mxnet目录下"><a href="#STEP3-编译python版本-默认在mxnet目录下" class="headerlink" title="STEP3 编译python版本, 默认在mxnet目录下"></a>STEP3 编译python版本, 默认在mxnet目录下</h3><ul>
 <li><p>在step2成功之后，打包python egg。</p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-<span class="built_in">get</span> install <span class="keyword">python</span>-numpy</span><br><span class="line"><span class="keyword">cd</span> <span class="keyword">python</span>/</span><br><span class="line">sudo <span class="keyword">python</span> setup.<span class="keyword">py</span> install</span><br></pre></td></tr></table></figure>
 </li>
@@ -400,8 +394,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">'export PYTHONPATH=~/mxnet/python'</span> &gt;&gt;  ~/.bashrc</span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>###STEP4 测试demo mnist, 默认在mxnet目录下</p>
-<ul>
+<h3 id="STEP4-测试demo-mnist-默认在mxnet目录下"><a href="#STEP4-测试demo-mnist-默认在mxnet目录下" class="headerlink" title="STEP4 测试demo mnist, 默认在mxnet目录下"></a>STEP4 测试demo mnist, 默认在mxnet目录下</h3><ul>
 <li><p>without gpu</p>
 <figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python <span class="built_in">example</span>/<span class="built_in">image</span>-classification/train_mnist.py</span><br></pre></td></tr></table></figure>
 </li>
@@ -409,7 +402,7 @@
 <figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python <span class="built_in">example</span>/<span class="built_in">image</span>-classification/train_mnist.py --gpus <span class="number">0</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>###注意点<br><strong>在具体运行的时候可能出现<code>OpenCV is not available.</code>的提醒，一般情况下不用理会，因为用不到，如果需要使用的话，安装参考<a href="https://github.com/bearpaw/Install-OpenCV" target="_blank" rel="external">教程</a></strong></p>
+<h3 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h3><p><strong>在具体运行的时候可能出现<code>OpenCV is not available.</code>的提醒，一般情况下不用理会，因为用不到，如果需要使用的话，安装参考<a href="https://github.com/bearpaw/Install-OpenCV" target="_blank" rel="external">教程</a></strong></p>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="http://mxnet.readthedocs.org/en/latest/" target="_blank" rel="external">MXNet官方Documentation</a><br><a href="https://github.com/bearpaw/Install-OpenCV" target="_blank" rel="external">OpenCV安装教程</a></p>
 
       
@@ -612,7 +605,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境"><span class="nav-number">2.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">3.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">4.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境"><span class="nav-number">2.</span> <span class="nav-text">环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#系统"><span class="nav-number">2.1.</span> <span class="nav-text">系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件"><span class="nav-number">2.2.</span> <span class="nav-text">硬件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#软件版本"><span class="nav-number">2.3.</span> <span class="nav-text">软件版本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">3.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Before"><span class="nav-number">3.1.</span> <span class="nav-text">Before</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#STEP1-Prerequisites"><span class="nav-number">3.2.</span> <span class="nav-text">STEP1 Prerequisites</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#STEP2-编译-so文件"><span class="nav-number">3.3.</span> <span class="nav-text">STEP2 编译.so文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#STEP3-编译python版本-默认在mxnet目录下"><span class="nav-number">3.4.</span> <span class="nav-text">STEP3 编译python版本, 默认在mxnet目录下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#STEP4-测试demo-mnist-默认在mxnet目录下"><span class="nav-number">3.5.</span> <span class="nav-text">STEP4 测试demo mnist, 默认在mxnet目录下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意点"><span class="nav-number">3.6.</span> <span class="nav-text">注意点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">4.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
             
           </div>
         </section>
